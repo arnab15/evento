@@ -14,3 +14,8 @@ export const getEvents = ({
    //console.log(uri);
    return axios.get(uri);
 };
+
+export const getAllTags = () => {
+   const uri = "https://api.codingninjas.com/api/v3/event_tags";
+   return axios.get(uri);
+};

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useLocation } from "react-router-dom";
+import { getAllTags } from "../../services/eventService";
 const Tag = ({ handelClick, tag, isActive }) => {
    return (
       <p
@@ -18,12 +19,11 @@ function EventTags(props) {
    const location = useLocation();
    const history = useHistory();
    const getTags = async () => {
-      const resp = await fetch(
-         "https://api.codingninjas.com/api/v3/event_tags"
-      );
       const {
-         data: { tags },
-      } = await resp.json();
+         data: {
+            data: { tags },
+         },
+      } = await getAllTags();
       let convertedArr = tags.map((tag) => {
          return {
             tagVal: tag,
@@ -33,12 +33,14 @@ function EventTags(props) {
       setTags(convertedArr);
       // console.log(tags);
    };
+
    useEffect(() => {
       getTags();
       history.push(
          "/events?event_category=ALL_EVENTS&event_sub_category=Upcoming"
       );
    }, [history]);
+
    let newArr = [];
    const handelClick = (clickedTag) => {
       if (newArr.length === 0) {
